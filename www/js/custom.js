@@ -2,22 +2,27 @@ var myApp = angular.module('mainApp', []);
 
 myApp.controller('mainController', ['$scope', '$http', '$log', function($scope, $http, $log) {
 		
-		$scope.isClicked = false;
+		$scope.disabled = "";
 	
-		$scope.clicked = function() {
+		$scope.start = function() {
 			
-			return $scope.isClicked
-		}
-	
-		$scope.click = function() {
-			
+			$scope.disabled = "disabled";
+
 			Myo.connect('com.stolksdorf.myAwesomeApp');
 
-			Myo.on('fist', function(){
-				console.log('Hello Myo!');
-				this.vibrate();
+			Myo.on('imu', function(data) {
+				console.log(data);
 			});
+		}
+		
+		$scope.stop = function() {
 			
-			$scope.isClicked = true;
+			$scope.disabled = "disabled";
+
+			Myo.connect('com.stolksdorf.myAwesomeApp');
+
+			Myo.on('imu', function(data) {
+				console.log(data);
+			});
 		}
 }]);
