@@ -122,14 +122,17 @@ myApp.controller('dashboardController', ['$scope', '$http', '$log', '$interval',
         $scope.save = function() {
             
             finalData.push(takeAverage(halfSecond));
-            halfSecond = [];        
+            halfSecond = [];
         }
 		
 		$scope.stop = function() {
 
             $interval.cancel(promise);
             $scope.save();
+            finalData = [];            
 			Myo.off('imu');
-            $http.post('localhost:5000/compare', finalData);            
+            $http.post('localhost:5000/compare', {
+                finalData
+            });            
 		}
 }]);
