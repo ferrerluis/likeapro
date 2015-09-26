@@ -43,12 +43,22 @@
 			<h1 class="title">Record the model motion</h1>
 		
 			<div class="button-container">
-				<button class="waves-effect waves-light btn">Start</button>
-				<button class="waves-effect waves-light btn disabled">Restart</button>
-				<button class="waves-effect waves-light btn disabled">Continue</button>
+				<button class="waves-effect waves-light btn" ng-click="record(model)" ng-disabled="model.wasContinued()">{{ model.getText() }}</button>
+				<button class="waves-effect waves-light btn" ng-click="model.continued = true;" ng-disabled="!model.finished">Continue</button>
 			</div>
 			<div class="numbers-container">
-				
+				<div class="one-third">					
+					<h5>Accelerometer:</h5>
+					<p>X: {{ model.coor.ax }} Y: {{ model.coor.ax }} Z: {{ model.coor.ax }}</p>
+				</div>
+				<div class="one-third">					
+					<h5>Gyroscope:</h5>
+					<p>X: {{ model.coor.gx }} Y: {{ model.coor.gx }} Z: {{ model.coor.gx }}</p>
+				</div>
+				<div class="one-third">					
+					<h5>Orientation:</h5>
+					<p>X: {{ model.coor.ox }} Y: {{ model.coor.oy }} Z: {{ model.coor.oz }} W: {{ model.coor.ow }}</p>
+				</div>
 			</div>
 		</div>
 		
@@ -56,13 +66,23 @@
 			<h1 class="title">Record the trainer motion</h1>
 		
 			<div class="button-container">
-				<button class="waves-effect waves-light btn">Start</button>
-				<button class="waves-effect waves-light btn disabled">Restart</button>
-				<button class="waves-effect waves-light btn disabled">Continue</button>
+				<button class="waves-effect waves-light btn" ng-click="record(user)" ng-disabled="!model.wasContinued() || user.wasContinued()">{{ user.getText() }}</button>
+				<button class="waves-effect waves-light btn" ng-click="user.continued = true;" ng-disabled="!user.finished">Continue</button>
 			</div>
 			
 			<div class="numbers-container">
-			
+				<div class="one-third">					
+					<h5>Accelerometer:</h5>
+					<p>X: {{ user.coor.ax }} Y: {{ user.coor.ax }} Z: {{ user.coor.ax }}</p>
+				</div>
+				<div class="one-third">					
+					<h5>Gyroscope:</h5>
+					<p>X: {{ user.coor.gx }} Y: {{ user.coor.gx }} Z: {{ user.coor.gx }}</p>
+				</div>
+				<div class="one-third">					
+					<h5>Orientation:</h5>
+					<p>X: {{ user.coor.ox }} Y: {{ user.coor.oy }} Z: {{ user.coor.oz }} W: {{ user.coor.ow }}</p>
+				</div>
 			</div>
 		</div>
 		

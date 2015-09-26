@@ -79,39 +79,80 @@ myApp.config(function($routeProvider) {
             });
     });
 
-myApp.controller('mainController', ['$scope', '$http', '$log', function($scope, $http, $log) {
+myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
-		
-}]);
-
-myApp.controller('dashboardController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
-		
-        $scope.buttonStatus = 'Start';
-		$scope.isRecording = false;
+        $scope.model = {
+            
+            finished: false,
+            isFinished: function() {return $scope.model.finished},
+            text: 'Start',
+            getText: function() {return $scope.model.text},
+            clicked: false,
+            continued: false,
+            wasContinued: function() {return $scope.model.continued},
+            coor: {
+                ax: 0, ay: 0, az: 0,
+                gx: 0, gy: 0, gz: 0,
+                ox: 0, oy: 0, oz: 0, ow: 0
+            },
+            data: null
+        }
+        
+        $scope.user = {
+            
+            finished: false,
+            isFinished: function() {return $scope.user.finished},
+            text: 'Start',
+            getText: function() {return $scope.user.text},            
+            clicked: false,
+            continued: false,
+            wasContinued: function() {return $scope.user.continued},
+            coor: {
+                ax: 0, ay: 0, az: 0,
+                gx: 0, gy: 0, gz: 0,
+                ox: 0, oy: 0, oz: 0, ow: 0
+            },
+            data: null
+        }
+        
         Myo.connect('com.stolksdorf.myAwesomeApp');	   
     
-        $scope.record = function() {
+        $scope.record = function(person) {
             
-            if (!$scope.isRecording) {
+            if (!person.clicked) {
             
-                $scope.start();
-                $scope.isRecording = true;
-                $scope.buttonStatus = 'Stop';                
+                $scope.start(person);
+                person.text = 'Stop';
+                person.clicked = true;
+                person.finished = false;                
             } else {
                 
-                $scope.stop();
-                $scope.isRecording = false;
-                $scope.buttonStatus = 'Start';                                
+                $scope.stop(person);
+                person.text = 'Start';
+                person.clicked = false;                
+                person.finished = true;
             }
         }
     
-        var halfSecond = [];
-        var finalData = [];
-        var promise;     
+        var halfSecond = []; //stores all the data that Myo returns every half a second
+        var finalData = []; //stores the average of the data of halfSecond
+        var promise;
     
-		$scope.start = function() {
-                        
+		$scope.start = function(person) {
+            
 			Myo.on('imu', function(data) {
+                
+                var a = data.accelerometer;
+                var g = data.gyroscope;
+                var o = data.orientation;
+                
+                $log.info(data);
+                
+                person.coor = {
+                    ax: a.x, ay: a.y, az: a.z,
+                    gx: g.x, gy: g.y, gz: g.z,
+                    ox: o.x, oy: o.y, oz: o.z, ow: o.w
+                };
                 
 				halfSecond.push(data);
 			});
@@ -125,14 +166,22 @@ myApp.controller('dashboardController', ['$scope', '$http', '$log', '$interval',
             halfSecond = [];
         }
 		
-		$scope.stop = function() {
+		$scope.stop = function(person) {
 
             $interval.cancel(promise);
             $scope.save();
-            finalData = [];            
-			Myo.off('imu');
-            $http.post('localhost:5000/compare', {
-                finalData
-            });            
+            
+            person.data = finalData;
+            
+            finalData = []; //empty finalData for next user to use     
+			Myo.off('imu'); //myo stops returning data         
 		}
+        
+        $scope.finalize = function() {
+            
+            $http.post('localhost:5000/compare', {
+                user: $scope.user,
+                model: $scope.model
+            });   
+        }
 }]);
