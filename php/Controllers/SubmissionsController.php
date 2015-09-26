@@ -6,15 +6,12 @@ use LikeAPro\Models\Submission;
 class SubmissionsController extends ApiController{
     public $mappings = [
         'crud' => ['model' => "LikeAPro\\Models\\Submission", "resource_name" => "submissions"],
-        'compare' => ['method' => 'post', 'route' => '/submissions/compare/@first_id/@second_id'],
+        'compare' => ['method' => 'post', 'route' => '/submissions/compare'],
     ];
 
-    public function compare($first_id, $second_id){
-        $trainingRun = Submission::findOrNew($first_id)->coordinates;
-        $model = Submission::findOrNew($second_id)->coordinates;
-
-        $trainingArray = json_decode($trainingRun);
-        $modelArray = json_decode($model);
+    public function compare(){
+        $trainingArray = json_decode(Flight::request()->data->first);
+        $modelArray = json_decode(Flight::request()->data->second);
         $differencesArray = [];
 
         $i = 0;
@@ -41,6 +38,6 @@ class SubmissionsController extends ApiController{
             $i++;
         }
 
-        Flight::json(["differences" => $differencesArray, "training" => $trainingArray, "model" => $modelArray]);
+        Flight::json(["differences" => $differencesArray);
     }
 }
