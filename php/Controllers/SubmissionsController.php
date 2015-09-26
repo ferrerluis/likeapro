@@ -10,15 +10,15 @@ class SubmissionsController extends ApiController{
     ];
 
     public function compare(){
-        $trainingArray = json_decode(Flight::request()->data->first);
-        $modelArray = json_decode(Flight::request()->data->second);
+        $trainingArray = json_decode(Flight::request()->data->training);
+        $modelArray = json_decode(Flight::request()->data->model);
         $differencesArray = [];
 
         $i = 0;
         foreach($trainingArray as $coordinates){
             $differencesArray[] = [
                 "accelerometer" => [
-                    "x" =>  [$i]->accelerometer->x - $trainingArray->accelerometer->x,
+                    "x" => $modelArray[$i]->accelerometer->x - $trainingArray->accelerometer->x,
                     "y" => $modelArray[$i]->accelerometer->y - $trainingArray->accelerometer->y,
                     "z" => $modelArray[$i]->accelerometer->z - $trainingArray->accelerometer->z,
                 ],
