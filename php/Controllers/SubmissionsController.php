@@ -10,7 +10,7 @@ class SubmissionsController extends ApiController{
     ];
 
     public function compare(){
-        $trainingArray = json_decode(Flight::request()->data->training);
+        $trainingArray = json_decode(Flight::request()->data->user);
         $modelArray = json_decode(Flight::request()->data->model);
         $differencesArray = [];
 
