@@ -130,6 +130,6 @@ myApp.controller('dashboardController', ['$scope', '$http', '$log', '$interval',
             $interval.cancel(promise);
             $scope.save();
 			Myo.off('imu');
-            $http.post('/submissions/average', finalData);            
+            $http.post('localhost:5000/compare', finalData);            
 		}
 }]);
