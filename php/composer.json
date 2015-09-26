@@ -1,0 +1,16 @@
+{
+    "name": "likeapro/api",
+    "authors": [
+        {
+            "name": "Caleb Lewis",
+            "email": "caleb_dre@yahoo.com"
+        }
+    ],
+    "autoload":{
+      "psr-4": {"LikeAPro\\": "./"}
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "calebdre/api-sugar": "dev-master"
+    }
+}
