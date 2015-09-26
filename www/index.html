@@ -49,6 +49,9 @@
 		
 		.numbers-container{
 			margin-top:30px;
+
+		.numbers-container {
+			margin-top: 20px;
 		}
 	</style>
 </head>
@@ -99,15 +102,24 @@
 			<div class="numbers-container">
 				<div class="card one-third">					
 					<h5>Accelerometer:</h5>
-					<p>X: {{ model.coor.ax }} Y: {{ model.coor.ax }} Z: {{ model.coor.ax }}</p>
+					<div style="width: 100%;">
+						<p>X: {{ model.coor.ax }}</p>
+						<p>Y: {{ model.coor.ay }}</p>
+						<p>Z: {{ model.coor.az }}</p>
+					</div>
 				</div>
-				<div class="card one-third">					
+				<div class="card one-third">
 					<h5>Gyroscope:</h5>
-					<p>X: {{ model.coor.gx }} Y: {{ model.coor.gx }} Z: {{ model.coor.gx }}</p>
+					<p>X: {{ model.coor.gx }}</p>
+					<p>Y: {{ model.coor.gy }}</p>
+					<p>Z: {{ model.coor.gz }}</p>
 				</div>
 				<div class="card one-third">					
 					<h5>Orientation:</h5>
-					<p>X: {{ model.coor.ox }} Y: {{ model.coor.oy }} Z: {{ model.coor.oz }} W: {{ model.coor.ow }}</p>
+					<p>X: {{ model.coor.ox }}</p>
+					<p>Y: {{ model.coor.oy }}</p>
+					<p>Z: {{ model.coor.oz }}</p>
+					<p>W: {{ model.coor.ow }}</p>					
 				</div>
 			</div>
 		</div>
@@ -123,24 +135,28 @@
 			<div class="numbers-container">
 				<div class="card one-third">					
 					<h5>Accelerometer:</h5>
-					<p>X: {{ user.coor.ax }} Y: {{ user.coor.ax }} Z: {{ user.coor.ax }}</p>
+					<p>X: {{ user.coor.ax }}</p>
+					<p>Y: {{ user.coor.ay }}</p>
+					<p>Z: {{ user.coor.az }}</p>
 				</div>
 				<div class="card one-third">					
 					<h5>Gyroscope:</h5>
-					<p>X: {{ user.coor.gx }} Y: {{ user.coor.gx }} Z: {{ user.coor.gx }}</p>
+					<p>X: {{ user.coor.gx }}</p>
+					<p>Y: {{ user.coor.gy }}</p>
+					<p>Z: {{ user.coor.gz }}</p>
 				</div>
 				<div class="card one-third">					
 					<h5>Orientation:</h5>
-					<p>X: {{ user.coor.ox }} Y: {{ user.coor.oy }} Z: {{ user.coor.oz }} W: {{ user.coor.ow }}</p>
+					<p>X: {{ user.coor.ox }}</p>
+					<p>Y: {{ user.coor.oy }}</p>
+					<p>Z: {{ user.coor.oz }}</p>
+					<p>W: {{ user.coor.ow }}</p>
 				</div>
 			</div>
 		</div>
 		
 		<div class="section">
 			<h1>See the comparison: </h1>
-			<!--<div class="legend">
-				<ul></ul>
-			</div>-->
 			<div class="graphs-container">
 				<ul class="legend card">
 					<li class="active">x</li>
