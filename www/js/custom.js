@@ -157,7 +157,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 				halfSecond.push(data);
 			});
             
-            promise = $interval($scope.save, 100);
+            promise = $interval($scope.save, 250);
 		}
         
         $scope.save = function() {
@@ -179,9 +179,17 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
         
         $scope.finalize = function() {
             
-            $http.post('localhost:5000/compare', {
-                user: $scope.user,
-                model: $scope.model
-            });   
+            $http.post('http://localhost:5000/compare', {
+                user: $scope.user.data,
+                model: $scope.model.data
+            })
+            
+            .then(function(response) {
+                
+                $log.info(response);
+            }, function(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
         }
 }]);

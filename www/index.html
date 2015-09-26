@@ -46,9 +46,6 @@
 			background-color:#2bbbad;
 			color:#fff;
 		}
-		
-		.numbers-container{
-			margin-top:30px;
 
 		.numbers-container {
 			margin-top: 20px;
@@ -94,32 +91,36 @@
 		<div class="record-1 section">
 			<h1 class="title">Record the model motion</h1>
 		
-			<div class="button-container">
+			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-click="record(model)" ng-disabled="model.wasContinued()">{{ model.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="model.continued = true;" ng-disabled="!model.finished">Continue</button>
 			</div>
 			
 			<div class="numbers-container">
 				<div class="card one-third">					
-					<h5>Accelerometer:</h5>
-					<div style="width: 100%;">
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Accelerometer:</p>										
 						<p>X: {{ model.coor.ax }}</p>
 						<p>Y: {{ model.coor.ay }}</p>
 						<p>Z: {{ model.coor.az }}</p>
 					</div>
 				</div>
 				<div class="card one-third">
-					<h5>Gyroscope:</h5>
-					<p>X: {{ model.coor.gx }}</p>
-					<p>Y: {{ model.coor.gy }}</p>
-					<p>Z: {{ model.coor.gz }}</p>
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Gyroscope:</p>						
+						<p>X: {{ model.coor.gx }}</p>
+						<p>Y: {{ model.coor.gy }}</p>
+						<p>Z: {{ model.coor.gz }}</p>
+					</div>
 				</div>
 				<div class="card one-third">					
-					<h5>Orientation:</h5>
-					<p>X: {{ model.coor.ox }}</p>
-					<p>Y: {{ model.coor.oy }}</p>
-					<p>Z: {{ model.coor.oz }}</p>
-					<p>W: {{ model.coor.ow }}</p>					
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Orientation:</p>
+						<p>X: {{ model.coor.ox }}</p>
+						<p>Y: {{ model.coor.oy }}</p>
+						<p>Z: {{ model.coor.oz }}</p>
+						<p>W: {{ model.coor.ow }}</p>
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -127,30 +128,36 @@
 		<div class="record-2 section">
 			<h1 class="title">Record the trainer motion</h1>
 		
-			<div class="button-container">
+			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-click="record(user)" ng-disabled="!model.wasContinued() || user.wasContinued()">{{ user.getText() }}</button>
-				<button class="waves-effect waves-light btn" ng-click="user.continued = true;" ng-disabled="!user.finished">Continue</button>
+				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize();" ng-disabled="!user.finished">Continue</button>
 			</div>
 			
 			<div class="numbers-container">
 				<div class="card one-third">					
-					<h5>Accelerometer:</h5>
-					<p>X: {{ user.coor.ax }}</p>
-					<p>Y: {{ user.coor.ay }}</p>
-					<p>Z: {{ user.coor.az }}</p>
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Accelerometer:</p>
+						<p>X: {{ user.coor.ax }}</p>
+						<p>Y: {{ user.coor.ay }}</p>
+						<p>Z: {{ user.coor.az }}</p>
+					</div>
 				</div>
 				<div class="card one-third">					
-					<h5>Gyroscope:</h5>
-					<p>X: {{ user.coor.gx }}</p>
-					<p>Y: {{ user.coor.gy }}</p>
-					<p>Z: {{ user.coor.gz }}</p>
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Gyroscope:</p>
+						<p>X: {{ user.coor.gx }}</p>
+						<p>Y: {{ user.coor.gy }}</p>
+						<p>Z: {{ user.coor.gz }}</p>
+					</div>
 				</div>
 				<div class="card one-third">					
-					<h5>Orientation:</h5>
-					<p>X: {{ user.coor.ox }}</p>
-					<p>Y: {{ user.coor.oy }}</p>
-					<p>Z: {{ user.coor.oz }}</p>
-					<p>W: {{ user.coor.ow }}</p>
+					<div class="card-content" ng-cloak>
+						<p class="card-title">Orientation:</p>						
+						<p>X: {{ user.coor.ox }}</p>
+						<p>Y: {{ user.coor.oy }}</p>
+						<p>Z: {{ user.coor.oz }}</p>
+						<p>W: {{ user.coor.ow }}</p>
+					</div>
 				</div>
 			</div>
 		</div>
