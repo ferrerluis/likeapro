@@ -38,6 +38,7 @@ class SubmissionsController extends ApiController{
             $i++;
         }
 
+        header('Access-Control-Allow-Origin: *');
         Flight::json(["differences" => $differencesArray);
     }
 }
