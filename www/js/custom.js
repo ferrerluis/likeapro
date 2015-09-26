@@ -157,7 +157,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 				halfSecond.push(data);
 			});
             
-            promise = $interval($scope.save, 500);
+            promise = $interval($scope.save, 100);
 		}
         
         $scope.save = function() {
