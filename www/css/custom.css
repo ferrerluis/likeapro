@@ -1,14 +1,19 @@
-body {
+h1 {
+  
+  font-size: 10px;
+}
+
+.nav-wrapper {
+	
+	padding-left: 20px;
+}
+
+/*body {
 	
 	text-align: center;
-}
+}*/
 
 .result {
-	
-	padding: 20px;
-}
-
-.start-btn {
 	
 	padding: 20px;
 }
