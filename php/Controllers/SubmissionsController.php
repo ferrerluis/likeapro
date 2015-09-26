@@ -21,7 +21,7 @@ class SubmissionsController extends ApiController{
         foreach($trainingArray as $coordinates){
             $differencesArray[] = [
                 "accelerometer" => [
-                    "x" =>  [$i]->accelerometer->x - $trainingArray->accelerometer->x,
+                    "x" => $modelArray[$i]->accelerometer->x - $trainingArray->accelerometer->x,
                     "y" => $modelArray[$i]->accelerometer->y - $trainingArray->accelerometer->y,
                     "z" => $modelArray[$i]->accelerometer->z - $trainingArray->accelerometer->z,
                 ],
