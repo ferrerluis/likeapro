@@ -50,8 +50,8 @@
 			padding:0;
 			display:inline-block;
 			vertical-align: top;
-			margin-top:10px;
-			margin-right:5%;
+			margin-top:45px;
+			margin-right:4%;
 		}
 		.one-third{
 			width: 25%;
@@ -76,6 +76,10 @@
 		.graph-title {
 			font-size: 22px;
 		}
+
+        .percent-correct{
+            font-size:1.15em;
+        }
 		
 	</style>
 </head>
@@ -206,7 +210,7 @@
 						<li ng-class="isActive('x')" ng-click="activateLegend('x')" class="legendCoord">x</li>
 						<li ng-class="isActive('y')" ng-click="activateLegend('y')" class="legendCoord">y</li>
 						<li ng-class="isActive('z')" ng-click="activateLegend('z')" class="legendCoord">z</li>
-						<li ng-class="isActive('w')" ng-click="activateLegend('w')" class="legendCoord">w</li>
+						<!--<li ng-class="isActive('w')" ng-click="activateLegend('w')" class="legendCoord">w</li>-->
 					</ul>
 					<div class="card graph-space one-third">
 						<div class="card-content">
@@ -215,6 +219,7 @@
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 					<div class="card graph-space one-third">
@@ -224,6 +229,7 @@
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 					<div class="card graph-space one-third">
@@ -233,7 +239,8 @@
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
-							<p ng-if="isSelected('w')"></p>
+							<!--<p ng-if="isSelected('w')"></p>-->
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 				</div>

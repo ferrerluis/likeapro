@@ -307,6 +307,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     dataSource[fields[i]].user = dataSource[fields[i]].user.slice(0, dataSource[fields[i]].model.length - 1);
                 }
 
+
                 for (var j = 0; j < dataSource[fields[i]].user.length; j++) {
                     xModelUserDiffData[fields[i]].push({
                         "time": j,
@@ -316,9 +317,16 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     });
                 }
 
-                $('.' + fields[i] + '-graph').empty();
+                var percentSimilar = Math.round(dataSource[fields[i]].differences.reduce(function(sum, a) { return sum + a },0)/(dataSource[fields[i]].differences.length!=0?dataSource[fields[i]].differences.length:1));
+                percentSimilar = (percentSimilar < 0) ? 0 : percentSimilar;
+
+                var $graph = $('.' + fields[i] + '-graph');
+
+                $graph.parent().find(".percent-correct").text("You were " + percentSimilar + "% similar!");
+
+                $graph.empty();
                 new Morris.Line({
-                    element: $('.' + fields[i] + '-graph'),
+                    element: $graph,
                     data: xModelUserDiffData[fields[i]],
                     xkey: 'time',
                     ykeys: ['userVal', "modelVal", "diffVal"],
@@ -337,7 +345,12 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     }
                 });
             }
-        }
+        };
+
+        $scope.renderPercentage = function(){
+            var ax = $scope.aggregateXData.accelerometer.differences.elements;
+
+        };
 
         $scope.finalize = function() {
 
@@ -419,6 +432,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.renderGraph("x");
+                $scope.renderPercentage();
             }, function (error) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
