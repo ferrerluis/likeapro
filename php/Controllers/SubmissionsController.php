@@ -15,9 +15,8 @@ class SubmissionsController extends ApiController{
         $name = Flight::request()->data->name;
 
         $sub = new Submission();
-        $sub->coordinates = $coords;
         $sub->name = $name;
-
+        $sub->coordinates = $coords;
         $sub->save();
 
         Flight::json(['success' => "yay!"]);
@@ -33,20 +32,20 @@ class SubmissionsController extends ApiController{
             if(! isset($modelArray[$i])) break;
             $differencesArray[] = [
                 "accelerometer" => [
-                    "x" => $modelArray[$i]["accelerometer"]["x"] - $coordinates["accelerometer"]["x"],
-                    "y" => $modelArray[$i]["accelerometer"]["y"] - $coordinates["accelerometer"]["y"],
-                    "z" => $modelArray[$i]["accelerometer"]["z"] - $coordinates["accelerometer"]["z"],
+                    "x" => ($modelArray[$i]["accelerometer"]["x"] - $coordinates["accelerometer"]["x"]) * 30,
+                    "y" => ($modelArray[$i]["accelerometer"]["y"] - $coordinates["accelerometer"]["y"]) * 30,
+                    "z" => ($modelArray[$i]["accelerometer"]["z"] - $coordinates["accelerometer"]["z"]) * 30,
                 ],
                 "gyroscope" => [
-                    "x" => $modelArray[$i]["gyroscope"]["x"] - $coordinates["gyroscope"]["x"],
-                    "y" => $modelArray[$i]["gyroscope"]["y"]  - $coordinates["gyroscope"]["y"],
-                    "z" => $modelArray[$i]["gyroscope"]["z"] - $coordinates["gyroscope"]["z"],
+                    "x" => ($modelArray[$i]["gyroscope"]["x"] - $coordinates["gyroscope"]["x"]),
+                    "y" => ($modelArray[$i]["gyroscope"]["y"]  - $coordinates["gyroscope"]["y"]),
+                    "z" => ($modelArray[$i]["gyroscope"]["z"] - $coordinates["gyroscope"]["z"]),
                 ],
                 "orientation" => [
-                    "x" => $modelArray[$i]["orientation"]["x"]  - $coordinates["orientation"]["x"],
-                    "y" => $modelArray[$i]["orientation"]["y"] - $coordinates["orientation"]["y"],
-                    "z" => $modelArray[$i]["orientation"]["z"]  - $coordinates["orientation"]["z"],
-                    "w" => $modelArray[$i]["orientation"]["w"] - $coordinates["orientation"]["w"],
+                    "x" => ($modelArray[$i]["orientation"]["x"]  - $coordinates["orientation"]["x"]) * 20,
+                    "y" => ($modelArray[$i]["orientation"]["y"] - $coordinates["orientation"]["y"]) * 20,
+                    "z" => ($modelArray[$i]["orientation"]["z"]  - $coordinates["orientation"]["z"]) * 20,
+                    "w" => ($modelArray[$i]["orientation"]["w"] - $coordinates["orientation"]["w"]) * 20,
                 ]
             ];
 

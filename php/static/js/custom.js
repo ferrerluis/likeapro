@@ -183,7 +183,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 				halfSecond.push(data);
 			});
             
-            promise = $interval($scope.save, 250);
+            promise = $interval($scope.save, 200);
 		}
         
         $scope.save = function() {
@@ -326,6 +326,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 
                 var percentSimilar = Math.round(dataSource[fields[i]].differences.reduce(function(sum, a) { return sum + a },0)/(dataSource[fields[i]].differences.length!=0?dataSource[fields[i]].differences.length:1));
                 percentSimilar = (percentSimilar < 0) ? 0 : percentSimilar;
+                percentSimilar = (percentSimilar > 100) ? 100 : percentSimilar;
 
                 var $graph = $('.' + fields[i] + '-graph');
 
@@ -354,13 +355,12 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             }
         };
 
-        $scope.renderPercentage = function(){
-            var ax = $scope.aggregateXData.accelerometer.differences.elements;
-
-        };
-
         $scope.finalize = function() {
-
+            //$http.post("/submissions", {
+            //   "coordinates": JSON.stringify($scope.user.data),
+            //    'name': "shakira"
+            //});
+            //return;
             $http.post('/submissions/compare', {
                 user: $scope.user.data,
                 model: $scope.pro
