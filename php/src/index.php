@@ -20,11 +20,4 @@ $api->configureDB([
 $api->addClass(new SubmissionsController());
 $api->addClass(new UserController());
 
-
-
-
-
-Flight::map('notFound', function(){
-    header("Location ". substr(parse_url($_SERVER['REQUEST_URI'])['path'], 1));
-});
 $api->execute();

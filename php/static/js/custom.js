@@ -265,21 +265,84 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             }
             return newData;
         };
-        
-        $scope.finalize = function() {
-            
-            $http.post('/submissions/compare', {
-                user: $scope.user.data,
-                model: $scope.model.data
-            })
-            
-            .then(function(response) {
+
+        $scope.renderGraph = function(axis) {
+            var dataSource = $scope.aggregateXData;
+
+            switch (axis) {
+                case "x":
+                    dataSource = $scope.aggregateXData;
+                    break;
+                case "y":
+                    dataSource = $scope.aggregateYData;
+                    break;
+                case "z":
+                    dataSource = $scope.aggregateZData;
+                    break;
+                case "w":
+                    dataSource = $scope.aggregateWData;
+                    break;
+            }
+
+            var fields = ["accelerometer", "gyroscope", "orientation"];
+            var xModelUserDiffData = {
+                "accelerometer": [],
+                "gyroscope": [],
+                "orientation": []
+            };
+
+            for (var i = 0; i < fields.length; i++) {
+                if (dataSource[fields[i]].model.length > dataSource[fields[i]].user.length) {
+                    dataSource[fields[i]].model = dataSource[fields[i]].model.slice(0, dataSource[fields[i]].user.length - 1);
+                } else {
+                    dataSource[fields[i]].user = dataSource[fields[i]].user.slice(0, dataSource[fields[i]].model.length - 1);
+                }
+
+                for (var j = 0; j < dataSource[fields[i]].user.length; j++) {
+                    xModelUserDiffData[fields[i]].push({
+                        "time": j,
+                        "userVal": dataSource[fields[i]].user[j],
+                        "modelVal": dataSource[fields[i]].model[j],
+                        "diffVal": dataSource[fields[i]].differences[j]
+                    });
+                }
+
+                new Morris.Line({
+                    element: $('.' + fields[i] + '-graph'),
+                    data: xModelUserDiffData[fields[i]],
+                    xkey: 'time',
+                    ykeys: ['userVal', "modelVal", "diffVal"],
+                    parseTime: false,
+                    labels: ['You', "Model", "Difference"],
+                    dateFormat: function () {
+                        return "";
+                    },
+                    xLabelFormat: function (e) {
+                        return (parseInt(e.x) / 2.5).toString() + "s";
+                    },
+                    grid: false,
+                    hoverCallback: function (index, options, content, row) {
+                        //return "Difference: " + xModelUserDiffData[fields[i]][index].diffVal;
+                        return "";
+                    }
+                });
+            }
+
+            $scope.finalize = function () {
+
+                $http.post('/submissions/compare', {
+                    user: $scope.user.data,
+                    model: $scope.model.data
+                })
+
+                .
+                then(function (response) {
                     $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
                     var modelData = $scope.coordinateData.model;
                     var userData = $scope.coordinateData.user;
                     var differencesData = $scope.coordinateData.differences;
 
-                    var aggregateXData = {
+                    $scope.aggregateXData = {
                         "accelerometer": {
                             "model": modelData.accelerometer.x,
                             "user": userData.accelerometer.x,
@@ -299,7 +362,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         }
                     };
 
-                    var aggregateYData = {
+                    $scope.aggregateYData = {
                         "accelerometer": {
                             "model": modelData.accelerometer.y,
                             "user": userData.accelerometer.y,
@@ -319,7 +382,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         }
                     };
 
-                    var aggregateZData = {
+                    $scope.aggregateZData = {
                         "accelerometer": {
                             "model": modelData.accelerometer.z,
                             "user": userData.accelerometer.z,
@@ -339,7 +402,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         }
                     };
 
-                    var aggregateWData = {
+                    $scope.aggregateWData = {
                         "accelerometer": {
                             "model": modelData.accelerometer.w,
                             "user": userData.accelerometer.w,
@@ -359,52 +422,11 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         }
                     };
 
-                    var fields = ["accelerometer", "gyroscope", "orientation"];
-                    var xModelUserDiffData = {
-                        "accelerometer": [],
-                        "gyroscope": [],
-                        "orientation": []
-                    };
-
-                    for(var i = 0; i < fields.length; i++){
-                        if(aggregateXData[fields[i]].model.length > aggregateXData[fields[i]].user.length){
-                            aggregateXData[fields[i]].model = aggregateXData[fields[i]].model.slice(0, aggregateXData[fields[i]].user.length - 1);
-                        }else{
-                            aggregateXData[fields[i]].user = aggregateXData[fields[i]].user.slice(0, aggregateXData[fields[i]].model.length - 1);
-                        }
-
-                        for(var j = 0; j < aggregateXData[fields[i]].user.length; j++){
-                            xModelUserDiffData[fields[i]].push({
-                                "time": j,
-                                "userVal": aggregateXData[fields[i]].user[j],
-                                "modelVal": aggregateXData[fields[i]].model[j],
-                                "diffVal" : aggregateXData[fields[i]].differences[j]
-                            });
-                        }
-
-                        new Morris.Line({
-                            element: $('.'+fields[i]+'-graph'),
-                            data: xModelUserDiffData[fields[i]],
-                            xkey: 'time',
-                            ykeys: ['userVal', "modelVal", "diffVal"],
-                            parseTime: false,
-                            labels: ['You', "Model", "Difference"],
-                            dateFormat: function(){
-                                return "";
-                            },
-                            xLabelFormat: function(e){
-                                return (parseInt(e.x)/2.5).toString() + "s";
-                            },
-                            grid: false,
-                            hoverCallback: function(index, options, content, row){
-                                //return "Difference: " + xModelUserDiffData[fields[i]][index].diffVal;
-								return "";
-                            }
-                        });
-                    }
-            }, function(error) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-            });
+                    $scope.renderGraph("x");
+                }, function (error) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            }
         }
-}]);
+        }]);
