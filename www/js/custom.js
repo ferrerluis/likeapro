@@ -81,6 +81,16 @@ myApp.config(function($routeProvider) {
 
 myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
+        $scope.pro;
+        $scope.selected = false;
+        $scope.didSelect = function() {return $scope.selected};
+        
+        $scope.selectPro = function(pro) {
+            
+            $scope.pro = pro;
+            $scope.selected = true;
+        }
+        
         $scope.model = {
             
             finished: false,

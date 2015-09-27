@@ -67,7 +67,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Arm Wave</span>
 					<p>Do you think you're worthy of challenging the great God of the Arm Waving?</p>
-					<button class="waves-effect waves-light btn">Hell, yeah!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('wave')" ng-disabled="didSelect()">Hell, yeah!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
@@ -80,7 +80,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Golf</span>
 					<p>I've won a stuffed animal at the town's minigolf. Twice.</p>
-					<button class="waves-effect waves-light btn">The third is on me!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('golf')" ng-disabled="didSelect()">The third is on me!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
@@ -93,7 +93,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Baseball</span>
 					<p>I am don't mean to show off, but last week my pitching reached the catcher after only 7 tries.</p>
-					<button class="waves-effect waves-light btn">Challenge accepted!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('baseball')" ng-disabled="didSelect()">Challenge accepted!</button>					
 				</div>
 			</div>
           
@@ -123,7 +123,7 @@
 			<h1 class="title">Record the model motion</h1>
 		
 			<div class="button-container" ng-cloak>
-				<button class="waves-effect waves-light btn" ng-click="record(model)" ng-disabled="model.wasContinued()">{{ model.getText() }}</button>
+				<button class="waves-effect waves-light btn" ng-click="record(model)" ng-disabled="!didSelect() || model.wasContinued()">{{ model.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="model.continued = true;" ng-disabled="!model.finished">Continue</button>
 			</div>
 			
@@ -157,7 +157,7 @@
 		</div>
 		
 		<div class="record-2 section">
-			<h1 class="title">Record the trainer motion</h1>
+			<h1 class="title">Record the user motion</h1>
 		
 			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-click="record(user)" ng-disabled="!model.wasContinued() || user.wasContinued()">{{ user.getText() }}</button>
