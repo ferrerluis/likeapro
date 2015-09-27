@@ -81,32 +81,64 @@ myApp.config(function($routeProvider) {
 
 myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
+        $scope.action;
+        $scope.actionSelected = false;
+        $scope.didSelectAction = function() {return $scope.actionSelected};
+        
+        $scope.selectAction = function(action) {
+            
+            $scope.action = action;
+            $scope.actionSelected = true;
+        }
+        
+        $scope.activeLegend = 'x';
+        
+        $scope.isActive = function(legend) {
+            
+            if (legend === $scope.activeLegend) {
+                
+                return 'active';
+            } else {
+                
+                return '';
+            }
+        }
+        
+        $scope.activateLegend = function(legend) {
+            
+            $scope.activeLegend = legend;
+        } 
+        
+        $scope.selectedAction = function(action) {
+            
+            if (action === $scope.action) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
         $scope.pro;
-        $scope.selected = false;
-        $scope.didSelect = function() {return $scope.selected};
+        $scope.proSelected = false;
+        $scope.didSelectPro = function() {return $scope.proSelected};
         
         $scope.selectPro = function(pro) {
             
             $scope.pro = pro;
-            $scope.selected = true;
+            $scope.proSelected = true;
         }
         
-        $scope.model = {
+        $scope.selectedPro = function(pro) {
             
-            finished: false,
-            isFinished: function() {return $scope.model.finished},
-            text: 'Start',
-            getText: function() {return $scope.model.text},
-            clicked: false,
-            continued: false,
-            wasContinued: function() {return $scope.model.continued},
-            coor: {
-                ax: 0, ay: 0, az: 0,
-                gx: 0, gy: 0, gz: 0,
-                ox: 0, oy: 0, oz: 0, ow: 0
-            },
-            data: null
+            if (pro === $scope.pro) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        
+        $scope.started = false;
+        $scope.wasStarted = function() {if($scope.started) {return "red"} else {return ""}};
         
         $scope.user = {
             
@@ -134,13 +166,15 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 $scope.start(person);
                 person.text = 'Stop';
                 person.clicked = true;
-                person.finished = false;                
+                person.finished = false; 
+                $scope.started = true;
             } else {
                 
                 $scope.stop(person);
                 person.text = 'Start';
                 person.clicked = false;                
                 person.finished = true;
+                $scope.started = false;
             }
         }
     
@@ -191,7 +225,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             
             $http.post('/submissions/compare', {
                 user: $scope.user.data,
-                model: $scope.model.data
+                model: $scope.pro
             })
             
             .then(function(response) {
