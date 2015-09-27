@@ -59,8 +59,8 @@
 			padding:0;
 			display:inline-block;
 			vertical-align: top;
-			margin-top:10px;
-			margin-right:5%;
+			margin-top:45px;
+			margin-right:4%;
 		}
 		.one-third{
 			width: 25%;
@@ -85,6 +85,10 @@
 		.graph-title {
 			font-size: 22px;
 		}
+
+        .percent-correct{
+            font-size:1.15em;
+        }
 		
 	</style>
 </head>
@@ -160,7 +164,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Tiger Woods</span>
 					<p>I've won a stuffed animal at the town's minigolf. Twice.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('woods'); scrollToElement('#record')" ng-disabled="didSelectPro()">The third one's on me!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('golf'); scrollToElement('#record')" ng-disabled="didSelectPro()">The third one's on me!</button>
 				</div>
 			</div>
 			<div ng-if="selectedAction('baseball')" class="card one-third">
@@ -173,7 +177,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Derek Jeter</span>
 					<p>I am don't mean to show off, but last week my pitching reached the catcher after only 7 tries.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('jeter'); scrollToElement('#record')" ng-disabled="didSelectPro()">Oh man...</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('baseball'); scrollToElement('#record')" ng-disabled="didSelectPro()">Oh man...</button>
 				</div>
 			</div>
 		</div>
@@ -223,15 +227,16 @@
 						<li ng-class="isActive('x')" ng-click="activateLegend('x')" class="legendCoord">x</li>
 						<li ng-class="isActive('y')" ng-click="activateLegend('y')" class="legendCoord">y</li>
 						<li ng-class="isActive('z')" ng-click="activateLegend('z')" class="legendCoord">z</li>
-						<li ng-class="isActive('w')" ng-click="activateLegend('w')" class="legendCoord">w</li>
+						<!--<li ng-class="isActive('w')" ng-click="activateLegend('w')" class="legendCoord">w</li>-->
 					</ul>
 					<div class="card graph-space one-third">
 						<div class="card-content">
 							<p class="card-title grey-text text-darken-4">Accelerator</p>
-							<div class="acceleration-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
+							<div class="accelerometer-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 					<div class="card graph-space one-third">
@@ -241,6 +246,7 @@
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 					<div class="card graph-space one-third">
@@ -250,7 +256,8 @@
 							<p ng-if="isSelected('x')"></p>
 							<p ng-if="isSelected('y')"></p>
 							<p ng-if="isSelected('z')"></p>
-							<p ng-if="isSelected('w')"></p>
+							<!--<p ng-if="isSelected('w')"></p>-->
+                            <p class="percent-correct"></p>
 						</div>
 					</div>
 				</div>
@@ -266,8 +273,5 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 	<script src="js/custom.js" type="text/javascript"></script>
-	<script>
-
-	</script>
 </body>
 </html>

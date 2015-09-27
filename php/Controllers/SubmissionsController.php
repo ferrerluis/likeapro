@@ -5,13 +5,27 @@ use LikeAPro\Models\Submission;
 
 class SubmissionsController extends ApiController{
     public $mappings = [
-        'crud' => ['model' => "LikeAPro\\Models\\Submission", "resource_name" => "submissions"],
+//        'crud' => ['model' => "LikeAPro\\Models\\Submission", "resource_name" => "submissions"],
         'compare' => ['method' => 'post', 'route' => '/submissions/compare'],
+        'create' => ['method' => "post", 'route' => '/submissions']
     ];
+
+    public function create(){
+        $coords = Flight::request()->data->coordinates;
+        $name = Flight::request()->data->name;
+
+        $sub = new Submission();
+        $sub->coordinates = $coords;
+        $sub->name = $name;
+
+        $sub->save();
+
+        Flight::json(['success' => "yay!"]);
+    }
 
     public function compare(){
         $trainingArray = Flight::request()->data->user;
-        $modelArray = Flight::request()->data->model;
+        $modelArray = json_decode(Submission::where("name" ,"=", Flight::request()->data->model)->first()->coordinates, true);
         $differencesArray = [];
 
         $i = 0;

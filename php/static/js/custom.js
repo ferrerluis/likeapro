@@ -54,31 +54,6 @@ function takeAverage(fullData) {
 
 var myApp = angular.module('mainApp', ['ngRoute']);
 
-myApp.config(function($routeProvider) {
-        $routeProvider
-
-            // route for the home page
-            .when('/', {
-                templateUrl : 'pages/home.html',
-                controller  : 'homeController'
-            })
-            
-            .when('/login', {
-                templateUrl : 'pages/login.html',
-                controller  : 'loginController'
-            })
-
-            // route for the about page
-            .when('/dashboard', {
-                templateUrl : 'pages/dashboard.html',
-                controller  : 'dashboardController'
-            })
-            
-            .otherwise({
-                redirectTo: 'pages/home.html'
-            });
-    });
-
 myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
         $scope.scrollToElement = function(el, ms){
@@ -112,8 +87,8 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
         }
         
         $scope.activateLegend = function(legend) {
-            
             $scope.activeLegend = legend;
+            $scope.renderGraph(legend);
         } 
         
         $scope.selectedAction = function(action) {
@@ -339,6 +314,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     dataSource[fields[i]].user = dataSource[fields[i]].user.slice(0, dataSource[fields[i]].model.length - 1);
                 }
 
+
                 for (var j = 0; j < dataSource[fields[i]].user.length; j++) {
                     xModelUserDiffData[fields[i]].push({
                         "time": j,
@@ -348,8 +324,16 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     });
                 }
 
+                var percentSimilar = Math.round(dataSource[fields[i]].differences.reduce(function(sum, a) { return sum + a },0)/(dataSource[fields[i]].differences.length!=0?dataSource[fields[i]].differences.length:1));
+                percentSimilar = (percentSimilar < 0) ? 0 : percentSimilar;
+
+                var $graph = $('.' + fields[i] + '-graph');
+
+                $graph.parent().find(".percent-correct").text("You were " + percentSimilar + "% similar!");
+
+                $graph.empty();
                 new Morris.Line({
-                    element: $('.' + fields[i] + '-graph'),
+                    element: $graph,
                     data: xModelUserDiffData[fields[i]],
                     xkey: 'time',
                     ykeys: ['userVal', "modelVal", "diffVal"],
@@ -359,7 +343,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         return "";
                     },
                     xLabelFormat: function (e) {
-                        return (parseInt(e.x) / 2.5).toString() + "s";
+                        return (parseInt(e.x) / 1.5).toString() + "s";
                     },
                     grid: false,
                     hoverCallback: function (index, options, content, row) {
@@ -368,7 +352,12 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     }
                 });
             }
-        }
+        };
+
+        $scope.renderPercentage = function(){
+            var ax = $scope.aggregateXData.accelerometer.differences.elements;
+
+        };
 
         $scope.finalize = function() {
 
@@ -442,18 +431,6 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.aggregateWData = {
-                    "accelerometer": {
-                        "model": modelData.accelerometer.w,
-                        "user": userData.accelerometer.w,
-                        "differences": differencesData.accelerometer.w
-                    },
-
-                    "gyroscope": {
-                        "model": modelData.gyroscope.w,
-                        "user": userData.gyroscope.w,
-                        "differences": differencesData.gyroscope.w
-                    },
-
                     "orientation": {
                         "model": modelData.orientation.w,
                         "user": userData.orientation.w,
@@ -462,8 +439,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.renderGraph("x");
-                
-                
+                $scope.renderPercentage();
                 
             }, function (error) {
                 // called asynchronously if an error occurs
