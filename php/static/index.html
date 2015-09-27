@@ -12,13 +12,35 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="viewport" content="initial-scale=1" />
 	<style>
+		@font-face {
+			font-family: Big-John;
+			src: url(fonts/big_john.otf);
+		}
+		
 		.container{
 			width:85%;
 			margin:0 auto;
-			padding:10px 0;
+			/*padding:10px 0;*/
 		}
 		
-		h1{
+		nav {
+			height: 100px;
+			padding-top: 25px;
+		}
+		
+		.logo {
+			/*color: black;*/
+			font-family: Big-John;
+			font-size: 4em;
+			padding: 0px;
+			margin: 0px;		
+		}
+		
+		.part-of-logo {
+			color: #f44336;
+		}
+		
+		h2 {
 			font-family: 'Raleway', sans-serif;
 			font-size:2.2em;
 		}
@@ -50,96 +72,100 @@
 		.numbers-container {
 			margin-top: 20px;
 		}
+		
+		.graph-title {
+			font-size: 22px;
+		}
+		
 	</style>
 </head>
 <body ng-controller="mainController">
-	
+	<nav class="teal lighten-2">
+		<p class="logo">Like<span class="part-of-logo">-A-</span>Pro</p>
+	</nav>
 	<div class="container">
 		<div class="choose-action-container section">
-			<h1 class="title">Choose an action:</h1>
+			<h2 class="title">Choose an action:</h2>
+			<!---------------------START ACTIONS---------------------------->
 			<div class="card one-third">
 				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="res/cards-01.png">
+					<img src="res/cards-01.png">
 				</div>
 				<div class="card-content">
-					<span class="card-title activator grey-text text-darken-4">Arm Wave</span>
-				</div>
-				<div class="card-reveal">
-					<span class="card-title grey-text text-darken-4">Arm Wave</span>
-					<p>Do you think you're worthy of challenging the great God of the Arm Waving?</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('wave')" ng-disabled="didSelect()">Hell, yeah!</button>					
+					<p class="card-title grey-text text-darken-4">Arm Wave</p>
+					<button class="waves-effect waves-light btn" ng-click="selectAction('wave')" ng-disabled="didSelectPro()">Let's dance!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
 				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="res/cards-03.png">
+					<img src="res/cards-03.png">
 				</div>
 				<div class="card-content">
-					<span class="card-title activator grey-text text-darken-4">Golf</span>
-				</div>
-				<div class="card-reveal">
-					<span class="card-title grey-text text-darken-4">Golf</span>
-					<p>I've won a stuffed animal at the town's minigolf. Twice.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('golf')" ng-disabled="didSelect()">The third one's on me!</button>					
+					<p class="card-title grey-text text-darken-4">Golf</p>
+					<button class="waves-effect waves-light btn" ng-click="selectAction('golf')" ng-disabled="didSelectPro()">I'll go with this one!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
 				<div class="card-image waves-effect waves-block waves-light">
-					<img class="activator" src="res/cards-02.png">
+					<img src="res/cards-02.png">
 				</div>
 				<div class="card-content">
-					<span class="card-title activator grey-text text-darken-4">Baseball</span>
-				</div>
-				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Baseball</span>
-					<p>I am don't mean to show off, but last week my pitching reached the catcher after only 7 tries.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('baseball')" ng-disabled="didSelect()">Challenge accepted!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectAction('baseball')" ng-disabled="didSelectPro()">Challenge accepted!</button>					
 				</div>
 			</div>
+			<!-------------END ACTIONS---------------->
 		</div>
 		
-		<div class="record-1 section">
-			<h1 class="title">Record the model motion</h1>
+		<div ng-cloak class="choose-pro-container section">
+			<h2 class="title">Choose a professional:</h2>
 		
-			<div class="button-container" ng-cloak>
-				<button class="waves-effect waves-light btn" ng-click="record(model)" ng-disabled="!didSelect() || model.wasContinued()">{{ model.getText() }}</button>
-				<button class="waves-effect waves-light btn" ng-click="model.continued = true;" ng-disabled="!model.finished || model.wasContinued()">Continue</button>
+			<div ng-if="selectedAction('wave')" class="card one-third">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img class="activator" src="res/professionals-02.png">
+				</div>
+				<div class="card-content">
+					<span class="card-title activator grey-text text-darken-4">Shakira</span>
+				</div>
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Shakira</span>
+					<p>Do you think you're worthy of challenging the almighty God of Arm Waving?</p>
+					<button class="waves-effect waves-light btn" ng-click="selectPro('wave')" ng-disabled="didSelectPro()">Hell, yeah!</button>					
+				</div>
 			</div>
-			
-			<div class="numbers-container">
-				<div class="card one-third">					
-					<div class="card-content" ng-cloak>
-						<p class="card-title">Accelerometer:</p>										
-						<p>X: {{ model.coor.ax }}</p>
-						<p>Y: {{ model.coor.ay }}</p>
-						<p>Z: {{ model.coor.az }}</p>
-					</div>
+			<div ng-if="selectedAction('golf')" class="card one-third">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img class="activator" src="res/professionals-03.png">
 				</div>
-				<div class="card one-third">
-					<div class="card-content" ng-cloak>
-						<p class="card-title">Gyroscope:</p>						
-						<p>X: {{ model.coor.gx }}</p>
-						<p>Y: {{ model.coor.gy }}</p>
-						<p>Z: {{ model.coor.gz }}</p>
-					</div>
+				<div class="card-content">
+					<span class="card-title activator grey-text text-darken-4">Tiger Woods</span>
 				</div>
-				<div class="card one-third">					
-					<div class="card-content" ng-cloak>
-						<p class="card-title">Orientation:</p>
-						<p>X: {{ model.coor.ox }}</p>
-						<p>Y: {{ model.coor.oy }}</p>
-						<p>Z: {{ model.coor.oz }}</p>
-						<p>W: {{ model.coor.ow }}</p>
-					</div>					
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Tiger Woods</span>
+					<p>I've won a stuffed animal at the town's minigolf. Twice.</p>
+					<button class="waves-effect waves-light btn" ng-click="selectPro('golf')" ng-disabled="didSelectPro()">The third one's on me!</button>					
+				</div>
+			</div>
+			<div ng-if="selectedAction('baseball')" class="card one-third">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img class="activator" src="res/professionals-01.png">
+				</div>
+				<div class="card-content">
+					<span class="card-title activator grey-text text-darken-4">Derek Jeter</span>
+				</div>
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Derek Jeter</span>
+					<p>I am don't mean to show off, but last week my pitching reached the catcher after only 7 tries.</p>
+					<button class="waves-effect waves-light btn" ng-click="selectPro('baseball')" ng-disabled="didSelectPro()">Oh man...</button>					
 				</div>
 			</div>
 		</div>
 		
 		<div class="record-2 section">
-			<h1 class="title">Record the user motion</h1>
+			<h2 class="title">Record the user motion</h2>
 		
 			<div class="button-container" ng-cloak>
-				<button class="waves-effect waves-light btn" ng-click="record(user)" ng-disabled="!model.wasContinued() || user.wasContinued()">{{ user.getText() }}</button>
+				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(user)" ng-disabled="!didSelectPro() || user.wasContinued()">{{ user.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize();" ng-disabled="!user.finished || user.wasContinued()">Continue</button>
 			</div>
 			
@@ -174,26 +200,41 @@
 		</div>
 		
 		<div class="section">
-			<h1>See the comparison: </h1>
-
+			<h2>See the comparison: </h2>
 				<div class="graphs-container">			
 					<ul class="legend card">
-						<li class="active legendCoord">x</li>
-						<li class="legendCoord">y</li>
-						<li class="legendCoord">z</li>
-						<li class="legendCoord">w</li>
+						<li ng-class="isActive('x')" ng-click="activateLegend('x')" class="legendCoord">x</li>
+						<li ng-class="isActive('y')" ng-click="activateLegend('y')" class="legendCoord">y</li>
+						<li ng-class="isActive('z')" ng-click="activateLegend('z')" class="legendCoord">z</li>
+						<li ng-class="isActive('w')" ng-click="activateLegend('w')" class="legendCoord">w</li>
 					</ul>
-					<div class="graph-space one-third">
-						<h5 class="graph-title">Acceleration</h5>
-						<div class="card accelerometer-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
+					<div class="card graph-space one-third">
+						<div class="card-content">
+							<p class="card-title grey-text text-darken-4">Accelerator</p>
+							<div class="acceleration-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
+							<p ng-if="isSelected('x')"></p>
+							<p ng-if="isSelected('y')"></p>
+							<p ng-if="isSelected('z')"></p>
+						</div>
 					</div>
-					<div class="graph-space one-third">
-						<h5 class="graph-title">Gyroscope</h5>						
-						<div class="card gyroscope-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>						
+					<div class="card graph-space one-third">
+						<div class="card-content">											
+							<p class="card-title grey-text text-darken-4">Gyroscope</p>	
+							<div class="gyroscope-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
+							<p ng-if="isSelected('x')"></p>
+							<p ng-if="isSelected('y')"></p>
+							<p ng-if="isSelected('z')"></p>
+						</div>
 					</div>
-					<div class="graph-space one-third">
-						<h5 class="graph-title">Orientation</h5>						
-						<div class="card orientation-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>						
+					<div class="card graph-space one-third">
+						<div class="card-content">												
+							<p class="card-title grey-text text-darken-4">Orientation</p>
+							<div class="orientation-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>
+							<p ng-if="isSelected('x')"></p>
+							<p ng-if="isSelected('y')"></p>
+							<p ng-if="isSelected('z')"></p>
+							<p ng-if="isSelected('w')"></p>
+						</div>
 					</div>
 				</div>
 			</div>
