@@ -156,7 +156,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 var g = data.gyroscope;
                 var o = data.orientation;
                 
-                $log.info(data);
+                //$log.info(data);
                 
                 person.coor = {
                     ax: a.x, ay: a.y, az: a.z,
@@ -186,6 +186,85 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             finalData = []; //empty finalData for next user to use     
 			Myo.off('imu'); //myo stops returning data         
 		}
+
+        $scope.transformDataToGraphForm = function(data){
+          var newData = {
+              "model": {
+                  "accelerometer": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "gyroscope": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "orientation": {
+                      "x": [],
+                      "y": [],
+                      "z": [],
+                      "w": []
+                  }
+              },
+              "user": {
+                  "accelerometer": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "gyroscope": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "orientation": {
+                      "x": [],
+                      "y": [],
+                      "z": [],
+                      "w": []
+                  }
+              },
+              "differences": {
+                  "accelerometer": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "gyroscope": {
+                      "x": [],
+                      "y": [],
+                      "z": []
+                  },
+
+                  "orientation": {
+                      "x": [],
+                      "y": [],
+                      "z": [],
+                      "w": []
+                  }
+              }
+          };
+
+            for(var key in data){
+                var datapoints = data[key];
+                for(var i = 0; i < datapoints.length; i++){
+                    var subject = datapoints[i];
+                    for(var subjectData in subject){
+                        var j = subject[subjectData];
+                        for(var d in j){
+                            newData[key][subjectData][d].push(j[d]);
+                        }
+                    }
+                }
+            }
+            return newData;
+        };
         
         $scope.finalize = function() {
             
@@ -195,8 +274,134 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             })
             
             .then(function(response) {
-                
-                $log.info(response);
+                    $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
+                    var modelData = $scope.coordinateData.model;
+                    var userData = $scope.coordinateData.user;
+                    var differencesData = $scope.coordinateData.differences;
+
+                    var aggregateXData = {
+                        "accelerometer": {
+                            "model": modelData.accelerometer.x,
+                            "user": userData.accelerometer.x,
+                            "differences": differencesData.accelerometer.x
+                        },
+
+                        "gyroscope": {
+                            "model": modelData.gyroscope.x,
+                            "user": userData.gyroscope.x,
+                            "differences": differencesData.gyroscope.x
+                        },
+
+                        "orientation": {
+                            "model": modelData.orientation.x,
+                            "user": userData.orientation.x,
+                            "differences": differencesData.orientation.x
+                        }
+                    };
+
+                    var aggregateYData = {
+                        "accelerometer": {
+                            "model": modelData.accelerometer.y,
+                            "user": userData.accelerometer.y,
+                            "differences": differencesData.accelerometer.y
+                        },
+
+                        "gyroscope": {
+                            "model": modelData.gyroscope.y,
+                            "user": userData.gyroscope.y,
+                            "differences": differencesData.gyroscope.y
+                        },
+
+                        "orientation": {
+                            "model": modelData.orientation.y,
+                            "user": userData.orientation.y,
+                            "differences": differencesData.orientation.y
+                        }
+                    };
+
+                    var aggregateZData = {
+                        "accelerometer": {
+                            "model": modelData.accelerometer.z,
+                            "user": userData.accelerometer.z,
+                            "differences": differencesData.accelerometer.z
+                        },
+
+                        "gyroscope": {
+                            "model": modelData.gyroscope.z,
+                            "user": userData.gyroscope.z,
+                            "differences": differencesData.gyroscope.z
+                        },
+
+                        "orientation": {
+                            "model": modelData.orientation.z,
+                            "user": userData.orientation.z,
+                            "differences": differencesData.orientation.z
+                        }
+                    };
+
+                    var aggregateWData = {
+                        "accelerometer": {
+                            "model": modelData.accelerometer.w,
+                            "user": userData.accelerometer.w,
+                            "differences": differencesData.accelerometer.w
+                        },
+
+                        "gyroscope": {
+                            "model": modelData.gyroscope.w,
+                            "user": userData.gyroscope.w,
+                            "differences": differencesData.gyroscope.w
+                        },
+
+                        "orientation": {
+                            "model": modelData.orientation.w,
+                            "user": userData.orientation.w,
+                            "differences": differencesData.orientation.w
+                        }
+                    };
+
+                    var fields = ["accelerometer", "gyroscope", "orientation"];
+                    var xModelUserDiffData = {
+                        "accelerometer": [],
+                        "gyroscope": [],
+                        "orientation": []
+                    };
+
+                    for(var i = 0; i < fields.length; i++){
+                        if(aggregateXData[fields[i]].model.length > aggregateXData[fields[i]].user.length){
+                            aggregateXData[fields[i]].model = aggregateXData[fields[i]].model.slice(0, aggregateXData[fields[i]].user.length - 1);
+                        }else{
+                            aggregateXData[fields[i]].user = aggregateXData[fields[i]].user.slice(0, aggregateXData[fields[i]].model.length - 1);
+                        }
+
+                        for(var j = 0; j < aggregateXData[fields[i]].user.length; j++){
+                            xModelUserDiffData[fields[i]].push({
+                                "time": j,
+                                "userVal": aggregateXData[fields[i]].user[j],
+                                "modelVal": aggregateXData[fields[i]].model[j],
+                                "diffVal" : aggregateXData[fields[i]].differences[j]
+                            });
+                        }
+
+                        new Morris.Line({
+                            element: $('.'+fields[i]+'-graph'),
+                            data: xModelUserDiffData[fields[i]],
+                            xkey: 'time',
+                            ykeys: ['userVal', "modelVal", "diffVal"],
+                            parseTime: false,
+                            labels: ['You', "Model", "Difference"],
+                            dateFormat: function(){
+                                return "";
+                            },
+                            xLabelFormat: function(e){
+                                return (parseInt(e.x)/2.5).toString() + "s";
+                            },
+                            grid: false,
+                            hoverCallback: function(index, options, content, row){
+                                //return "Difference: " + xModelUserDiffData[fields[i]][index].diffVal;
+								return "";
+                            }
+                        });
+                    }
             }, function(error) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
