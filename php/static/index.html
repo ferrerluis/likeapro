@@ -87,6 +87,7 @@
 	</style>
 </head>
 <body ng-controller="mainController">
+
 	<nav class="teal lighten-2">
 		<p class="logo">Like<span class="part-of-logo">-A-</span>Pro</p>
 	</nav>
@@ -180,19 +181,20 @@
 				</div>
 			</div>
 		</div>
-		
+
+		<div id="record" class="record-container section">
 		<!---------------------START FRIEND RECORDING---------------------------->
-		
+
 		<div ng-if="wasFriendSelected()" id="record-friend" class="record-container section">
 			<h2 class="title">Record the friend motion</h2>
-		
+
 			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(friend)" ng-disabled="!didSelectPro() || friend.wasContinued()">{{ friend.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="friend.continued = true; finalize(); ; scrollToElement('#record-user')" ng-disabled="!friend.finished || friend.wasContinued()">Continue</button>
 			</div>
-			
+
 			<div class="numbers-container">
-				<div class="card one-third">					
+				<div class="card one-third">
 					<div class="card-content" ng-cloak>
 						<p class="card-title">Accelerometer:</p>
 						<p>X: {{ friend.coor.ax }}</p>
@@ -201,7 +203,7 @@
 
 					</div>
 				</div>
-				<div class="card one-third">					
+				<div class="card one-third">
 					<div class="card-content" ng-cloak>
 						<p class="card-title">Gyroscope:</p>
 						<p>X: {{ friend.coor.gx }}</p>
@@ -209,9 +211,9 @@
 						<p>Z: {{ friend.coor.gz }}</p>
 					</div>
 				</div>
-				<div class="card one-third">					
+				<div class="card one-third">
 					<div class="card-content" ng-cloak>
-						<p class="card-title">Orientation:</p>						
+						<p class="card-title">Orientation:</p>
 						<p>X: {{ friend.coor.ox }}</p>
 						<p>Y: {{ friend.coor.oy }}</p>
 						<p>Z: {{ friend.coor.oz }}</p>
@@ -220,14 +222,14 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!----------------------END FRIEND RECORDING----------------------------->		
 		
 		<!----------------------START USER RECORDING----------------------------->
 		
 		<div id="record-user" class="record-container section">
 			<h2 class="title">Record the user motion</h2>
-		
+
 			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(user)" ng-disabled="(!friend.wasContinued() && !didSelectPro()) || user.wasContinued()">{{ user.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize(); ; scrollToElement('#graphs')" ng-disabled="!user.finished || user.wasContinued()">Continue</button>

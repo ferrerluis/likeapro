@@ -350,8 +350,25 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     });
                 }
 
-                var percentSimilar = Math.round(dataSource[fields[i]].differences.reduce(function(sum, a) { return sum + a },0)/(dataSource[fields[i]].differences.length!=0?dataSource[fields[i]].differences.length:1));
+                var model = dataSource[fields[i]].model;
+                var user= dataSource[fields[i]].user;
+                var point = 0;
+
+                for(var k = 0; k < model.length; k++){
+                    var multiplier = 1;
+                    if(model[k] < .5){
+                        multiplier = 100;
+                    }
+
+                    if(Math.abs(((model[k] - user[k]) * multiplier)) <= 5){
+                        point++;
+                    }
+                }
+
+                var percentSimilar = Math.round(point / model.length);
+
                 percentSimilar = (percentSimilar < 0) ? 0 : percentSimilar;
+                percentSimilar = (percentSimilar > 100) ? 100 : percentSimilar;
 
                 var $graph = $('.' + fields[i] + '-graph');
 
@@ -380,16 +397,16 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             }
         };
 
-        $scope.renderPercentage = function(){
-            var ax = $scope.aggregateXData.accelerometer.differences.elements;
-
-        };
-
         $scope.finalize = function() {
-
+            //$http.post("/submissions", {
+            //   "coordinates": JSON.stringify($scope.user.data),
+            //    'name': "shakira"
+            //});
+            //return;
             $http.post('/submissions/compare', {
                 user: $scope.user.data,
-                model: $scope.wasFriendSelected() ? $scope.friend.data : $scope.pro
+                model: $scope.wasFriendSelected() ? $scope.friend.data : $scope.pro,
+                friendSelected: $scope.wasFriendSelected() ? true: false
             }).then(function (response) {
                 $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
                 var modelData = $scope.coordinateData.model;
@@ -465,7 +482,6 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.renderGraph("x");
-                $scope.renderPercentage();
                 
             }, function (error) {
                 // called asynchronously if an error occurs
