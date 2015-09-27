@@ -138,7 +138,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Friend</span>
 					<p>Do you have a friend that could teach you better than our overexperienced teachers? Get him show us his skills right here!</p>
-					<button class="waves-effect waves-light btn" ng-click="selectFriend(); scrollToElement('#record-friend')" ng-disabled="!didSelectAction() || wasFriendSelected()">Hell, yeah!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectFriend(); scrollToElement('#record-friend')" ng-disabled="!didSelectAction() || wasFriendSelected() || didSelectPro()">You bet!</button>					
 				</div>
 			</div>
 			<div ng-if="selectedAction('wave')" class="card one-third">
@@ -230,7 +230,7 @@
 			<h2 class="title">Record the user motion</h2>
 		
 			<div class="button-container" ng-cloak>
-				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(user)" ng-disabled="!friend.wasContinued() || user.wasContinued()">{{ user.getText() }}</button>
+				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(user)" ng-disabled="(!friend.wasContinued() && !didSelectPro()) || user.wasContinued()">{{ user.getText() }}</button>
 				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize(); ; scrollToElement('#graphs')" ng-disabled="!user.finished || user.wasContinued()">Continue</button>
 			</div>
 			
