@@ -122,6 +122,33 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
         $scope.started = false;
         $scope.wasStarted = function() {if($scope.started) {return "red"} else {return ""}};
         
+        $scope.friendSelected = false;
+        $scope.wasFriendSelected = function() {return $scope.friendSelected};
+        
+        $scope.selectFriend = function() {
+            
+            $scope.wasFriendSelected = function() {return $scope.friendSelected};            
+            $scope.friendSelected = true;
+            $scope.proSelected = true;
+        }
+        
+        $scope.friend = {
+            
+            finished: false,
+            isFinished: function() {return $scope.friend.finished},
+            text: 'Start',
+            getText: function() {return $scope.friend.text},            
+            clicked: false,
+            continued: false,
+            wasContinued: function() {return $scope.friend.continued},
+            coor: {
+                ax: 0, ay: 0, az: 0,
+                gx: 0, gy: 0, gz: 0,
+                ox: 0, oy: 0, oz: 0, ow: 0
+            },
+            data: null
+        }
+        
         $scope.user = {
             
             finished: false,
@@ -153,7 +180,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             } else {
                 
                 $scope.stop(person);
-                person.text = 'Start';
+                person.text = 'Restart';
                 person.clicked = false;                
                 person.finished = true;
                 $scope.started = false;
@@ -171,8 +198,6 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 var a = data.accelerometer;
                 var g = data.gyroscope;
                 var o = data.orientation;
-                
-                //$log.info(data);
                 
                 person.coor = {
                     ax: a.x, ay: a.y, az: a.z,
@@ -363,7 +388,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 
             $http.post('/submissions/compare', {
                 user: $scope.user.data,
-                model: $scope.pro
+                model: $scope.wasFriendSelected() ? $scope.friend.data : $scope.pro
             }).then(function (response) {
                 $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
                 var modelData = $scope.coordinateData.model;
