@@ -105,8 +105,8 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
         }
         
         $scope.activateLegend = function(legend) {
-            
             $scope.activeLegend = legend;
+            $scope.renderGraph(legend);
         } 
         
         $scope.selectedAction = function(action) {
