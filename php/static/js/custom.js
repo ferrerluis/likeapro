@@ -361,114 +361,103 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     }
                 });
             }
+        }
 
-            $scope.finalize = function () {
-
-                $http.post('/submissions/compare', {
-                    user: $scope.user.data,
-                    model: $scope.model.data
-                })
-
-                .
-                then(function (response) {
         $scope.finalize = function() {
-            
+
             $http.post('/submissions/compare', {
                 user: $scope.user.data,
                 model: $scope.pro
-            })
-            
-            .then(function(response) {
-                    $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
-                    var modelData = $scope.coordinateData.model;
-                    var userData = $scope.coordinateData.user;
-                    var differencesData = $scope.coordinateData.differences;
+            }).then(function (response) {
+                $scope.coordinateData = $scope.transformDataToGraphForm(response.data);
+                var modelData = $scope.coordinateData.model;
+                var userData = $scope.coordinateData.user;
+                var differencesData = $scope.coordinateData.differences;
 
-                    $scope.aggregateXData = {
-                        "accelerometer": {
-                            "model": modelData.accelerometer.x,
-                            "user": userData.accelerometer.x,
-                            "differences": differencesData.accelerometer.x
-                        },
+                $scope.aggregateXData = {
+                    "accelerometer": {
+                        "model": modelData.accelerometer.x,
+                        "user": userData.accelerometer.x,
+                        "differences": differencesData.accelerometer.x
+                    },
 
-                        "gyroscope": {
-                            "model": modelData.gyroscope.x,
-                            "user": userData.gyroscope.x,
-                            "differences": differencesData.gyroscope.x
-                        },
+                    "gyroscope": {
+                        "model": modelData.gyroscope.x,
+                        "user": userData.gyroscope.x,
+                        "differences": differencesData.gyroscope.x
+                    },
 
-                        "orientation": {
-                            "model": modelData.orientation.x,
-                            "user": userData.orientation.x,
-                            "differences": differencesData.orientation.x
-                        }
-                    };
+                    "orientation": {
+                        "model": modelData.orientation.x,
+                        "user": userData.orientation.x,
+                        "differences": differencesData.orientation.x
+                    }
+                };
 
-                    $scope.aggregateYData = {
-                        "accelerometer": {
-                            "model": modelData.accelerometer.y,
-                            "user": userData.accelerometer.y,
-                            "differences": differencesData.accelerometer.y
-                        },
+                $scope.aggregateYData = {
+                    "accelerometer": {
+                        "model": modelData.accelerometer.y,
+                        "user": userData.accelerometer.y,
+                        "differences": differencesData.accelerometer.y
+                    },
 
-                        "gyroscope": {
-                            "model": modelData.gyroscope.y,
-                            "user": userData.gyroscope.y,
-                            "differences": differencesData.gyroscope.y
-                        },
+                    "gyroscope": {
+                        "model": modelData.gyroscope.y,
+                        "user": userData.gyroscope.y,
+                        "differences": differencesData.gyroscope.y
+                    },
 
-                        "orientation": {
-                            "model": modelData.orientation.y,
-                            "user": userData.orientation.y,
-                            "differences": differencesData.orientation.y
-                        }
-                    };
+                    "orientation": {
+                        "model": modelData.orientation.y,
+                        "user": userData.orientation.y,
+                        "differences": differencesData.orientation.y
+                    }
+                };
 
-                    $scope.aggregateZData = {
-                        "accelerometer": {
-                            "model": modelData.accelerometer.z,
-                            "user": userData.accelerometer.z,
-                            "differences": differencesData.accelerometer.z
-                        },
+                $scope.aggregateZData = {
+                    "accelerometer": {
+                        "model": modelData.accelerometer.z,
+                        "user": userData.accelerometer.z,
+                        "differences": differencesData.accelerometer.z
+                    },
 
-                        "gyroscope": {
-                            "model": modelData.gyroscope.z,
-                            "user": userData.gyroscope.z,
-                            "differences": differencesData.gyroscope.z
-                        },
+                    "gyroscope": {
+                        "model": modelData.gyroscope.z,
+                        "user": userData.gyroscope.z,
+                        "differences": differencesData.gyroscope.z
+                    },
 
-                        "orientation": {
-                            "model": modelData.orientation.z,
-                            "user": userData.orientation.z,
-                            "differences": differencesData.orientation.z
-                        }
-                    };
+                    "orientation": {
+                        "model": modelData.orientation.z,
+                        "user": userData.orientation.z,
+                        "differences": differencesData.orientation.z
+                    }
+                };
 
-                    $scope.aggregateWData = {
-                        "accelerometer": {
-                            "model": modelData.accelerometer.w,
-                            "user": userData.accelerometer.w,
-                            "differences": differencesData.accelerometer.w
-                        },
+                $scope.aggregateWData = {
+                    "accelerometer": {
+                        "model": modelData.accelerometer.w,
+                        "user": userData.accelerometer.w,
+                        "differences": differencesData.accelerometer.w
+                    },
 
-                        "gyroscope": {
-                            "model": modelData.gyroscope.w,
-                            "user": userData.gyroscope.w,
-                            "differences": differencesData.gyroscope.w
-                        },
+                    "gyroscope": {
+                        "model": modelData.gyroscope.w,
+                        "user": userData.gyroscope.w,
+                        "differences": differencesData.gyroscope.w
+                    },
 
-                        "orientation": {
-                            "model": modelData.orientation.w,
-                            "user": userData.orientation.w,
-                            "differences": differencesData.orientation.w
-                        }
-                    };
+                    "orientation": {
+                        "model": modelData.orientation.w,
+                        "user": userData.orientation.w,
+                        "differences": differencesData.orientation.w
+                    }
+                };
 
-                    $scope.renderGraph("x");
-                }, function (error) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                });
-            }
+                $scope.renderGraph("x");
+            }, function (error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
         }
         }]);
