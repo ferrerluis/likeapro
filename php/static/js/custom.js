@@ -130,6 +130,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
             $scope.wasFriendSelected = function() {return $scope.friendSelected};            
             $scope.friendSelected = true;
             $scope.proSelected = true;
+            $scope.scrollToElement('#record-friend');
         }
         
         $scope.friend = {
