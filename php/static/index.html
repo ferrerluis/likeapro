@@ -18,6 +18,7 @@
 		}
 		
 		body {
+			padding: 0px;
 			padding-bottom: 200px;
 			position: relative;
 		}
@@ -27,9 +28,16 @@
 			margin:0 auto;
 		}
 		
-		nav {
+		.upper-nav {
 			height: 100px;
 			padding-top: 25px;
+		}
+		
+		.bottom-nav {
+			position: absolute;
+			bottom: 0px;
+			padding-top: 25px;
+			height: 100px;
 		}
 		
 		.logo {
@@ -88,7 +96,7 @@
 </head>
 <body ng-controller="mainController">
 
-	<nav class="teal lighten-2">
+	<nav class="upper-nav teal lighten-2">
 		<p class="logo">Like<span class="part-of-logo">-A-</span>Pro</p>
 	</nav>
 	<div class="container">
@@ -310,8 +318,9 @@
 				</div>
 			</div>
 	</div>
-	
-	<nav style="position: absolute; bottom: 0px;" class="teal lighten-2">
+
+	</div>	
+	<nav class="bottom-nav teal lighten-2">
 		<p class="logo part-of-logo">-A-</p>
 	</nav>
 	
