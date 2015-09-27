@@ -189,7 +189,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
         
         $scope.finalize = function() {
             
-            $http.post('http://localhost:5000/compare', {
+            $http.post('/submissions/compare', {
                 user: $scope.user.data,
                 model: $scope.model.data
             })

@@ -150,6 +150,7 @@
 						<p>X: {{ user.coor.ax }}</p>
 						<p>Y: {{ user.coor.ay }}</p>
 						<p>Z: {{ user.coor.az }}</p>
+
 					</div>
 				</div>
 				<div class="card one-third">					
@@ -174,33 +175,25 @@
 		
 		<div class="section">
 			<h1>See the comparison: </h1>
-			<div class="comparison-container">
-				<ul class="legend card">
-					<li class="active legendCoord">x</li>
-					<li class="legendCoord">y</li>
-					<li class="legendCoord">z</li>
-					<li class="legendCoord">w</li>
-				</ul>
-				<div class="title-container">
-					<div class="one-third">
-						<h3>Acceleration</h3>
+				<div class="graphs-container">			
+					<ul class="legend card">
+						<li class="active legendCoord">x</li>
+						<li class="legendCoord">y</li>
+						<li class="legendCoord">z</li>
+						<li class="legendCoord">w</li>
+					</ul>
+					<div class="graph-space one-third">
+						<div class="card acceleration-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>	
+					</div>
+					<div class="graph-space one-third">
+						<div class="card gyroscope-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>						
+					</div>
+					<div class="graph-space one-third">
+						<div class="card orientation-graph" style="height:150px; width:100%; margin:0 1%; display:inline-block"></div>						
 					</div>
 				</div>
-				<div class="graphs-container">
-					<div class="acceleration one-third">
-						<div class="card acceleration-graph" style="height:150px; width:25%; margin:0 1%; display:inline-block"></div>	
-					</div>
-					<div class="gyroscope one-third">
-						<div class="card gyroscope-graph" style="height:150px; width:25%; margin:0 1%; display:inline-block"></div>						
-					</div>
-					<div class="orientation one-third">
-						<div class="card orientation-graph" style="height:150px; width:25%; margin:0 1%; display:inline-block"></div>						
-					</div>
-				</div>
-				</div>
-			</div>	
-		</div>
-	
+			</div>
+		</div>	
 	</div>
 	
 	<script src="myo/myo.js" type="text/javascript"></script>

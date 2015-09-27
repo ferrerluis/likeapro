@@ -10,35 +10,35 @@ class SubmissionsController extends ApiController{
     ];
 
     public function compare(){
-        $trainingArray = json_decode(Flight::request()->data->user);
-        $modelArray = json_decode(Flight::request()->data->model);
+        $trainingArray = Flight::request()->data->user;
+        $modelArray = Flight::request()->data->model;
         $differencesArray = [];
 
         $i = 0;
         foreach($trainingArray as $coordinates){
+            if(! isset($modelArray[$i])) break;
             $differencesArray[] = [
                 "accelerometer" => [
-                    "x" => $modelArray[$i]->accelerometer->x - $trainingArray->accelerometer->x,
-                    "y" => $modelArray[$i]->accelerometer->y - $trainingArray->accelerometer->y,
-                    "z" => $modelArray[$i]->accelerometer->z - $trainingArray->accelerometer->z,
+                    "x" => $modelArray[$i]["accelerometer"]["x"] - $coordinates["accelerometer"]["x"],
+                    "y" => $modelArray[$i]["accelerometer"]["y"] - $coordinates["accelerometer"]["y"],
+                    "z" => $modelArray[$i]["accelerometer"]["z"] - $coordinates["accelerometer"]["z"],
                 ],
                 "gyroscope" => [
-                    "x" => $modelArray[$i]->gyroscope->x - $trainingArray->gyroscope->x,
-                    "y" => $modelArray[$i]->gyroscope->y - $trainingArray->gyroscope->y,
-                    "z" => $modelArray[$i]->gyroscope->z - $trainingArray->gyroscope->z,
+                    "x" => $modelArray[$i]["gyroscope"]["x"] - $coordinates["gyroscope"]["x"],
+                    "y" => $modelArray[$i]["gyroscope"]["y"]  - $coordinates["gyroscope"]["y"],
+                    "z" => $modelArray[$i]["gyroscope"]["z"] - $coordinates["gyroscope"]["z"],
                 ],
                 "orientation" => [
-                    "x" => $modelArray[$i]->orientation->x - $trainingArray->orientation->x,
-                    "y" => $modelArray[$i]->orientation->y - $trainingArray->orientation->y,
-                    "z" => $modelArray[$i]->orientation->z - $trainingArray->orientation->z,
-                    "w" => $modelArray[$i]->orientation->w - $trainingArray->orientation->w,
+                    "x" => $modelArray[$i]["orientation"]["x"]  - $coordinates["orientation"]["x"],
+                    "y" => $modelArray[$i]["orientation"]["y"] - $coordinates["orientation"]["y"],
+                    "z" => $modelArray[$i]["orientation"]["z"]  - $coordinates["orientation"]["z"],
+                    "w" => $modelArray[$i]["orientation"]["w"] - $coordinates["orientation"]["w"],
                 ]
             ];
 
             $i++;
         }
 
-        header('Access-Control-Allow-Origin: *');
-        Flight::json(["differences" => $differencesArray]);
+        Flight::json(["differences" => $differencesArray, "user" => $trainingArray, "model" => $modelArray]);
     }
 }
