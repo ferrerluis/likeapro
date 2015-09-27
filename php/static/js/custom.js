@@ -81,6 +81,13 @@ myApp.config(function($routeProvider) {
 
 myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
+        $scope.scrollToElement = function(el, ms){
+            var speed = (ms) ? ms : 600;
+            $('html,body').animate({
+                scrollTop: $(el).offset().top
+            }, speed);
+        }
+        
         $scope.action;
         $scope.actionSelected = false;
         $scope.didSelectAction = function() {return $scope.actionSelected};
@@ -455,6 +462,9 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.renderGraph("x");
+                
+                
+                
             }, function (error) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.

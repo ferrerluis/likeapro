@@ -17,10 +17,20 @@
 			src: url(fonts/big_john.otf);
 		}
 		
+		body {
+			
+			padding-bottom: 200px;
+		}
+		
+		.section {
+			
+			padding-top: 100px;
+			padding-bottom: 100px;
+		}
+		
 		.container{
 			width:85%;
 			margin:0 auto;
-			/*padding:10px 0;*/
 		}
 		
 		nav {
@@ -29,7 +39,6 @@
 		}
 		
 		.logo {
-			/*color: black;*/
 			font-family: Big-John;
 			font-size: 4em;
 			padding: 0px;
@@ -84,7 +93,7 @@
 		<p class="logo">Like<span class="part-of-logo">-A-</span>Pro</p>
 	</nav>
 	<div class="container">
-		<div class="choose-action-container section">
+		<div id="actions" class="choose-action-container section">
 			<h2 class="title">Choose an action:</h2>
 			<!---------------------START ACTIONS---------------------------->
 			<div class="card one-third">
@@ -93,7 +102,7 @@
 				</div>
 				<div class="card-content">
 					<p class="card-title grey-text text-darken-4">Arm Wave</p>
-					<button class="waves-effect waves-light btn" ng-click="selectAction('wave')" ng-disabled="didSelectPro()">Let's dance!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectAction('wave'); scrollToElement('#choose-pro')" ng-disabled="didSelectPro()">Let's dance!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
@@ -102,7 +111,7 @@
 				</div>
 				<div class="card-content">
 					<p class="card-title grey-text text-darken-4">Golf</p>
-					<button class="waves-effect waves-light btn" ng-click="selectAction('golf')" ng-disabled="didSelectPro()">I'll go with this one!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectAction('golf'); scrollToElement('#choose-pro')" ng-disabled="didSelectPro()">I'll go with this one!</button>					
 				</div>
 			</div>
 			<div class="card one-third">
@@ -111,15 +120,23 @@
 				</div>
 				<div class="card-content">
 					<span class="card-title grey-text text-darken-4">Baseball</span>
-					<button class="waves-effect waves-light btn" ng-click="selectAction('baseball')" ng-disabled="didSelectPro()">Challenge accepted!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectAction('baseball'); scrollToElement('#choose-pro')" ng-disabled="didSelectPro()">Challenge accepted!</button>					
 				</div>
 			</div>
 			<!-------------END ACTIONS---------------->
 		</div>
 		
-		<div ng-cloak class="choose-pro-container section">
+		<div ng-cloak id="choose-pro" class="choose-pro-container section">
 			<h2 class="title">Choose a professional:</h2>
 		
+			<div ng-if="!didSelectAction()" class="card one-third">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img src="res/professionals-04.png">
+				</div>
+				<div class="card-content">
+					<span class="card-title">Dummy</span>
+				</div>
+			</div>
 			<div ng-if="selectedAction('wave')" class="card one-third">
 				<div class="card-image waves-effect waves-block waves-light">
 					<img class="activator" src="res/professionals-02.png">
@@ -130,7 +147,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Shakira</span>
 					<p>Do you think you're worthy of challenging the almighty God of Arm Waving?</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('shakira')" ng-disabled="didSelectPro()">Hell, yeah!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('shakira'); scrollToElement('#record')" ng-disabled="didSelectPro()">Hell, yeah!</button>					
 				</div>
 			</div>
 			<div ng-if="selectedAction('golf')" class="card one-third">
@@ -143,7 +160,7 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Tiger Woods</span>
 					<p>I've won a stuffed animal at the town's minigolf. Twice.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('woods')" ng-disabled="didSelectPro()">The third one's on me!</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('woods'); scrollToElement('#record')" ng-disabled="didSelectPro()">The third one's on me!</button>					
 				</div>
 			</div>
 			<div ng-if="selectedAction('baseball')" class="card one-third">
@@ -156,17 +173,17 @@
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">Derek Jeter</span>
 					<p>I am don't mean to show off, but last week my pitching reached the catcher after only 7 tries.</p>
-					<button class="waves-effect waves-light btn" ng-click="selectPro('jeter')" ng-disabled="didSelectPro()">Oh man...</button>					
+					<button class="waves-effect waves-light btn" ng-click="selectPro('jeter'); scrollToElement('#record')" ng-disabled="didSelectPro()">Oh man...</button>					
 				</div>
 			</div>
 		</div>
 		
-		<div class="record-2 section">
+		<div id="record" class="record-container section">
 			<h2 class="title">Record the user motion</h2>
 		
 			<div class="button-container" ng-cloak>
 				<button class="waves-effect waves-light btn" ng-class="wasStarted()" ng-click="record(user)" ng-disabled="!didSelectPro() || user.wasContinued()">{{ user.getText() }}</button>
-				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize();" ng-disabled="!user.finished || user.wasContinued()">Continue</button>
+				<button class="waves-effect waves-light btn" ng-click="user.continued = true; finalize(); ; scrollToElement('#graphs')" ng-disabled="!user.finished || user.wasContinued()">Continue</button>
 			</div>
 			
 			<div class="numbers-container">
@@ -199,7 +216,7 @@
 			</div>
 		</div>
 		
-		<div class="section">
+		<div id="graphs" class="section">
 			<h2>See the comparison: </h2>
 				<div class="graphs-container">			
 					<ul class="legend card">
