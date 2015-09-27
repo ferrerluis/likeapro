@@ -39,6 +39,6 @@ class SubmissionsController extends ApiController{
             $i++;
         }
 
-        Flight::json(["differences" => $differencesArray]);
+        Flight::json(["differences" => $differencesArray, "user" => $trainingArray, "model" => $modelArray]);
     }
 }
