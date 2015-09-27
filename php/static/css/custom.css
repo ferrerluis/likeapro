@@ -1,0 +1,41 @@
+h1 {
+  
+  font-size: 10px;
+}
+
+.nav-wrapper {
+	
+	padding-left: 20px;
+}
+
+body {
+	
+	text-align: center;
+}
+
+.result {
+	padding: 20px;
+}
+
+.tealbck {
+	background-color: #2bbbad;
+}
+
+.tealLegend {
+	background-color: #2bbbad;
+}
+
+.info {
+	background-color: #226666;
+	display: inline-block;
+	width: 25%;
+	margin-left: 4%;
+	margin-right: 1%;
+	
+}
+
+.graphTitles {
+	display: inline-block;
+	width:30%;
+	margin-right: 2%;
+}

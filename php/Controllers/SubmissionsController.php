@@ -5,42 +5,58 @@ use LikeAPro\Models\Submission;
 
 class SubmissionsController extends ApiController{
     public $mappings = [
-        'crud' => ['model' => "LikeAPro\\Models\\Submission", "resource_name" => "submissions"],
-        'compare' => ['method' => 'post', 'route' => '/submissions/compare/@first_id/@second_id'],
+//        'crud' => ['model' => "LikeAPro\\Models\\Submission", "resource_name" => "submissions"],
+        'compare' => ['method' => 'post', 'route' => '/submissions/compare'],
+        'create' => ['method' => "post", 'route' => '/submissions']
     ];
 
-    public function compare($first_id, $second_id){
-        $trainingRun = Submission::findOrNew($first_id)->coordinates;
-        $model = Submission::findOrNew($second_id)->coordinates;
+    public function create(){
+        $coords = Flight::request()->data->coordinates;
+        $name = Flight::request()->data->name;
 
-        $trainingArray = json_decode($trainingRun);
-        $modelArray = json_decode($model);
+        $sub = new Submission();
+        $sub->name = $name;
+        $sub->coordinates = $coords;
+        $sub->save();
+
+        Flight::json(['success' => "yay!"]);
+    }
+
+    public function compare(){
+        $trainingArray = Flight::request()->data->user;
+        if(Flight::request()->data->friendSelected == true){
+            $modelArray = Flight::request()->data->model;
+        }else {
+            $modelArray = json_decode(Submission::where("name", "=", Flight::request()->data->model)->first()->coordinates, true);
+        }
+
         $differencesArray = [];
 
         $i = 0;
         foreach($trainingArray as $coordinates){
+            if(! isset($modelArray[$i])) break;
             $differencesArray[] = [
                 "accelerometer" => [
-                    "x" =>  [$i]->accelerometer->x - $trainingArray->accelerometer->x,
-                    "y" => $modelArray[$i]->accelerometer->y - $trainingArray->accelerometer->y,
-                    "z" => $modelArray[$i]->accelerometer->z - $trainingArray->accelerometer->z,
+                    "x" => ($modelArray[$i]["accelerometer"]["x"] - $coordinates["accelerometer"]["x"]),
+                    "y" => ($modelArray[$i]["accelerometer"]["y"] - $coordinates["accelerometer"]["y"]),
+                    "z" => ($modelArray[$i]["accelerometer"]["z"] - $coordinates["accelerometer"]["z"]),
                 ],
                 "gyroscope" => [
-                    "x" => $modelArray[$i]->gyroscope->x - $trainingArray->gyroscope->x,
-                    "y" => $modelArray[$i]->gyroscope->y - $trainingArray->gyroscope->y,
-                    "z" => $modelArray[$i]->gyroscope->z - $trainingArray->gyroscope->z,
+                    "x" => ($modelArray[$i]["gyroscope"]["x"] - $coordinates["gyroscope"]["x"]) ,
+                    "y" => ($modelArray[$i]["gyroscope"]["y"]  - $coordinates["gyroscope"]["y"]),
+                    "z" => ($modelArray[$i]["gyroscope"]["z"] - $coordinates["gyroscope"]["z"]) ,
                 ],
                 "orientation" => [
-                    "x" => $modelArray[$i]->orientation->x - $trainingArray->orientation->x,
-                    "y" => $modelArray[$i]->orientation->y - $trainingArray->orientation->y,
-                    "z" => $modelArray[$i]->orientation->z - $trainingArray->orientation->z,
-                    "w" => $modelArray[$i]->orientation->w - $trainingArray->orientation->w,
+                    "x" => ($modelArray[$i]["orientation"]["x"]  - $coordinates["orientation"]["x"])  ,
+                    "y" => ($modelArray[$i]["orientation"]["y"] - $coordinates["orientation"]["y"]) ,
+                    "z" => ($modelArray[$i]["orientation"]["z"]  - $coordinates["orientation"]["z"]),
+                    "w" => ($modelArray[$i]["orientation"]["w"] - $coordinates["orientation"]["w"]) ,
                 ]
             ];
 
             $i++;
         }
 
-        Flight::json(["differences" => $differencesArray, "training" => $trainingArray, "model" => $modelArray]);
+        Flight::json(["differences" => $differencesArray, "user" => $trainingArray, "model" => $modelArray]);
     }
 }
