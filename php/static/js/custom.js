@@ -54,31 +54,6 @@ function takeAverage(fullData) {
 
 var myApp = angular.module('mainApp', ['ngRoute']);
 
-myApp.config(function($routeProvider) {
-        $routeProvider
-
-            // route for the home page
-            .when('/', {
-                templateUrl : 'pages/home.html',
-                controller  : 'homeController'
-            })
-            
-            .when('/login', {
-                templateUrl : 'pages/login.html',
-                controller  : 'loginController'
-            })
-
-            // route for the about page
-            .when('/dashboard', {
-                templateUrl : 'pages/dashboard.html',
-                controller  : 'dashboardController'
-            })
-            
-            .otherwise({
-                redirectTo: 'pages/home.html'
-            });
-    });
-
 myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', function($scope, $http, $log, $interval) {
 		
         $scope.action;
@@ -341,6 +316,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                     });
                 }
 
+                $('.' + fields[i] + '-graph').empty();
                 new Morris.Line({
                     element: $('.' + fields[i] + '-graph'),
                     data: xModelUserDiffData[fields[i]],
@@ -352,7 +328,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                         return "";
                     },
                     xLabelFormat: function (e) {
-                        return (parseInt(e.x) / 2.5).toString() + "s";
+                        return (parseInt(e.x) / 1.5).toString() + "s";
                     },
                     grid: false,
                     hoverCallback: function (index, options, content, row) {
@@ -435,18 +411,6 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
                 };
 
                 $scope.aggregateWData = {
-                    "accelerometer": {
-                        "model": modelData.accelerometer.w,
-                        "user": userData.accelerometer.w,
-                        "differences": differencesData.accelerometer.w
-                    },
-
-                    "gyroscope": {
-                        "model": modelData.gyroscope.w,
-                        "user": userData.gyroscope.w,
-                        "differences": differencesData.gyroscope.w
-                    },
-
                     "orientation": {
                         "model": modelData.orientation.w,
                         "user": userData.orientation.w,
