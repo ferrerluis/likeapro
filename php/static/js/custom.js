@@ -355,7 +355,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 
                 for(var k = 0; k < model.length; k++){
                     var multiplier = 1;
-                    if(model[k] < .5){
+                    if(model[k] < 1){
                         multiplier = 100;
                     }
 
@@ -371,7 +371,7 @@ myApp.controller('mainController', ['$scope', '$http', '$log', '$interval', func
 
                 var $graph = $('.' + fields[i] + '-graph');
 
-                $graph.parent().find(".percent-correct").text("You were " + percentSimilar + "% similar!");
+                //$graph.parent().find(".percent-correct").text("You were " + percentSimilar + "% similar!");
 
                 $graph.empty();
                 new Morris.Line({
